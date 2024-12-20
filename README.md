@@ -75,3 +75,88 @@ Este documento apresenta nossa estratégia de branches e releases, desenhada par
 - Feature flags: Configurar durante criação da release
 - Deploy: Apenas após aprovação completa
 - Versionamento: Seguir padrão semantic versioning (v1.2.3)
+
+<br>
+<br>
+<br>
+<br>
+
+# Git Flow: Guia de Boas Práticas
+
+## 1. Nomenclatura de Branches
+### Padrões
+- Features: `feature/taskID-[nome]`, `feature/MKT35-cart-validation`
+- Releases: `release/v1.2.3`, `release/v1.2.3-rc1`
+- Hotfixes: `hotfix/payment-error`, `hotfix/login-security`
+
+### Exemplos Práticos
+```
+✓ feature/MKT10-user-authentication
+✓ feature/MKT5-cart-checkout
+✓ release/v2.1.0
+✗ feature/jose-task     // Evitar nomes pessoais
+✗ release/sprint-22     // Usar versionamento semântico
+```
+
+## 2. Commits
+### Estrutura
+```
+<tipo>: <descrição concisa>
+
+[corpo opcional]
+
+[rodapé opcional]
+```
+
+### Tipos de Commit
+- `feat`: Nova funcionalidade
+- `fix`: Correção de bug
+- `docs`: Documentação
+- `style`: Formatação
+- `refactor`: Refatoração
+- `test`: Testes
+- `chore`: Tarefas de manutenção
+
+### Exemplos
+```
+✓ feat: adiciona validação de CPF no cadastro
+✓ fix: corrige cálculo de frete
+✗ updated files      // Muito vago
+✗ WIP               // Evitar commits temporários
+```
+
+## 3. Proteções de Branch
+### Main
+- Requer aprovação do PO
+- Requer aprovação técnica do Lead
+- Testes automáticos passando
+- Não permite force push
+
+### Develop
+- Requer review de código
+- Testes automáticos passando
+- Permite merge apenas via PR
+
+### Staging
+- Requer testes automáticos
+- Permite merge apenas via PR
+
+## 4. Feature Flags (Opcional)
+### Quando Usar
+- Features que precisam de lançamento controlado
+- Testes A/B
+- Releases graduais
+
+### Implementação
+```typescript
+if (featureFlags.isEnabled('novo-checkout')) {
+    // novo código
+} else {
+    // código atual
+}
+```
+
+### Gestão
+- Configurar durante criação da release
+- Documentar no PR
+- Remover flags obsoletas após release completa
